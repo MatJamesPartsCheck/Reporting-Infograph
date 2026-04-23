@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PartsCheck — Dashboard to Report Connectivity</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#F4F5F7;color:#1A1A1A;padding:32px 24px;min-height:100vh}
+  .page{max-width:860px;margin:0 auto}
+
+  /* Header */
+  .header{background:#2B8A3E;border-radius:8px;padding:24px 28px;margin-bottom:20px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  .header-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .logo-box{background:#fff;color:#2B8A3E;font-size:16px;font-weight:900;width:32px;height:30px;border-radius:3px;display:flex;align-items:center;justify-content:center}
+  .logo-name{color:#fff;font-size:18px;font-weight:700;letter-spacing:.5px}
+  .header-title{color:#fff;font-size:22px;font-weight:700;margin-bottom:4px}
+  .header-sub{color:rgba(255,255,255,.75);font-size:13px;line-height:1.5}
+  .header-meta{text-align:right;flex-shrink:0}
+  .meta-tag{background:rgba(255,255,255,.15);color:#fff;font-size:11px;padding:4px 10px;border-radius:4px;display:inline-block;margin-left:6px;margin-bottom:4px}
+
+  /* Legend */
+  .legend{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .legend-title{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+  .l-swatch{width:14px;height:14px;border-radius:2px;flex-shrink:0}
+  .badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
+  .p1{background:#E8F5E9;color:#1B5E20}
+  .p2{background:#FFF8E1;color:#7A4F00}
+  .sep{color:#DDD;font-size:16px}
+
+  /* Column headers */
+  .col-heads{display:grid;grid-template-columns:190px 96px 1fr;gap:10px;padding:6px 4px;margin-bottom:4px}
+  .col-head{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px}
+
+  /* Section group */
+  .group-label{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#555;background:#F0F0F0;padding:5px 10px;border-radius:4px;margin:12px 0 6px}
+
+  /* Row */
+  .row{display:grid;grid-template-columns:190px 96px 1fr;gap:10px;align-items:start;margin-bottom:6px}
+  .row.dimmed .tile-card,.row.dimmed .report-card{opacity:.6}
+
+  /* Tile card */
+  .tile-card{border:1px solid #E0E0E0;border-left-width:4px;border-radius:0 6px 6px 0;padding:9px 11px;background:#fff}
+  .tile-name{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:2px}
+  .tile-type{font-size:10px;color:#999}
+
+  /* Connector */
+  .connector{display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:12px}
+  .action-pill{font-size:10px;font-weight:600;background:#F0F0F0;color:#444;padding:3px 9px;border-radius:10px;border:1px solid #DDD;white-space:nowrap}
+  .conn-arrow{font-size:18px;color:#CCC;line-height:1;margin:-2px 0}
+
+  /* Report card */
+  .report-card{border:1px solid #E0E0E0;border-left:3px solid #185FA5;border-radius:0 6px 6px 0;padding:9px 11px;background:#fff}
+  .report-primary{font-size:12px;font-weight:700;color:#185FA5;margin-bottom:2px}
+  .report-secondary{font-size:11px;color:#888;margin-bottom:5px}
+  .p1-note{font-size:10px;color:#2E7D32;font-style:italic;line-height:1.4}
+  .p2-note{font-size:10px;color:#7A4F00;font-style:italic;line-height:1.4}
+
+  /* Summary box */
+  .summary{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:16px 18px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .summary-col-title{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+  .summary-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:11px;color:#555;line-height:1.5}
+  .summary-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+
+  /* Phase summary row */
+  .phase-summary{margin-top:16px;background:#fff;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden}
+  .phase-row{display:flex;align-items:center;padding:10px 16px;gap:12px;border-bottom:1px solid #F0F0F0}
+  .phase-row:last-child{border-bottom:none}
+  .phase-count{font-size:22px;font-weight:700;min-width:28px}
+  .phase-detail{flex:1}
+  .phase-detail-title{font-size:12px;font-weight:700;color:#1A1A1A;margin-bottom:2px}
+  .phase-detail-sub{font-size:11px;color:#777;line-height:1.5}
+  .phase-action{font-size:11px;font-weight:600;padding:4px 12px;border-radius:10px;white-space:nowrap}
+
+  /* Footer */
+  .footer{text-align:center;margin-top:20px;font-size:11px;color:#AAA}
+
+  @media print{
+    body{background:#fff;padding:16px}
+    .page{max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="header-logo">
+        <div class="logo-box">&#10003;</div>
+        <span class="logo-name">PARTSCHECK</span>
+      </div>
+      <div class="header-title">Dashboard to Report Connectivity</div>
+      <div class="header-sub">How each dashboard tile connects to portal reporting — what triggers the link, which report opens, and what is required to make each connection work.</div>
+    </div>
+    <div class="header-meta">
+      <span class="meta-tag">April 2026</span>
+      <span class="meta-tag">In development</span>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span class="legend-title">Key</span>
+    <span class="sep">|</span>
+    <div class="legend-item"><span class="badge p1">Phase 1</span>&nbsp;Navigation &amp; deep-link only — no new data needed</div>
+    <div class="legend-item"><span class="badge p2">Phase 2</span>&nbsp;Back-end data required before tile or link can be built</div>
+    <span class="sep">|</span>
+    <div class="legend-item"><div class="l-swatch" style="border-left:4px solid #2B8A3E;border:1px solid #DDD;border-left-width:4px"></div>Dashboard tile</div>
+    <div class="legend-item"><div class="l-swatch" style="border-left:4px solid #185FA5;border:1px solid #DDD;border-left-width:4px"></div>Portal report</div>
+    <div class="legend-item" style="margin-left:auto;color:#AAA;font-style:italic">Faded rows = Phase 2 — report exists, tile blocked on data</div>
+  </div>
+
+  <!-- COLUMN HEADERS -->
+  <div class="col-heads">
+    <div class="col-head">Dashboard tile</div>
+    <div class="col-head" style="text-align:center">Action</div>
+    <div class="col-head">Portal report &amp; what's needed</div>
+  </div>
+
+  <!-- ── KPI TILES ── -->
+  <div class="group-label">Month to date — KPI tiles</div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#2B8A3E">
+      <div class="tile-name">Quotes Sent</div>
+      <div class="tile-type">KPI tile &middot; MTD</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Score Card Direct Order Report</div>
+      <div class="report-secondary">Secondary: Full Job Cost Breakdown</div>
+      <div class="p1-note">Add deep-link with current MTD start &amp; end dates pre-applied</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#2B8A3E">
+      <div class="tile-name">Orders Placed</div>
+      <div class="tile-type">KPI tile &middot; MTD</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Detailed Purchase Analysis</div>
+      <div class="report-secondary">Secondary: All Items Purchased for Period</div>
+      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#2B8A3E">
+      <div class="tile-name">Total Spend</div>
+      <div class="tile-type">KPI tile &middot; MTD</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Item Type Spend Report</div>
+      <div class="report-secondary">Secondary: Detailed Purchase Analysis</div>
+      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#2B8A3E">
+      <div class="tile-name">Parts Profit</div>
+      <div class="tile-type">KPI tile &middot; MTD</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Parts Margin Report</div>
+      <div class="report-secondary">Secondary: Det. Purchase Analysis &mdash; Job Cost</div>
+      <div class="p1-note">Add deep-link with current MTD dates pre-applied. Sell price already captured.</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#2B8A3E">
+      <div class="tile-name">Hours Saved</div>
+      <div class="tile-type">KPI tile &middot; Estimate only</div>
+    </div>
+    <div class="connector">
+      <div style="font-size:10px;color:#999;text-align:center;line-height:1.4;padding:0 4px">No link</div>
+      <div class="conn-arrow" style="color:#E0E0E0">&mdash;</div>
+      <span class="badge" style="background:#F0F0F0;color:#999">No report</span>
+    </div>
+    <div class="report-card" style="border-left-color:#CCC">
+      <div class="report-primary" style="color:#999">No report available</div>
+      <div class="report-secondary">Estimated from avg workflow time savings across quoting, ordering and receipting activity. Not a captured data point &mdash; no drill-down exists.</div>
+      <div style="font-size:10px;color:#999;font-style:italic;margin-top:4px">No View Detail link on dashboard tile</div>
+    </div>
+  </div>
+
+  <!-- ── INSIGHT WIDGETS ── -->
+  <div class="group-label">Insight widgets</div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#3b82f6">
+      <div class="tile-name">Part Type Mix</div>
+      <div class="tile-type">Insight widget</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Item Type Percentage Report</div>
+      <div class="report-secondary">Secondary: Item Type Spend Report</div>
+      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
+    </div>
+  </div>
+
+  <div class="row dimmed">
+    <div class="tile-card" style="border-left-color:#C0392B">
+      <div class="tile-name">Missed Savings</div>
+      <div class="tile-type">Insight widget &middot; Phase 2 only</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p2">Phase 2</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">Item Lost Per Supplier</div>
+      <div class="report-secondary">Secondary: Part Pricing Purchased vs Cheapest</div>
+      <div class="p2-note">Requires at-order-time competitive price snapshot to be captured first</div>
+    </div>
+  </div>
+
+  <div class="row dimmed">
+    <div class="tile-card" style="border-left-color:#E07A00">
+      <div class="tile-name">Insurer Compliance</div>
+      <div class="tile-type">Insight widget &middot; Phase 2 only</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p2">Phase 2</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">OEM Supplier Discount Breakdown &mdash; New</div>
+      <div class="report-secondary">Secondary: Per Site Purchased vs Cheapest OEM AFT</div>
+      <div class="p2-note">Requires insurer KPI target configuration per repairer first</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="tile-card" style="border-left-color:#E07A00">
+      <div class="tile-name">NLA</div>
+      <div class="tile-type">Insight widget</div>
+    </div>
+    <div class="connector">
+      <div class="action-pill">View Detail &rarr;</div>
+      <div class="conn-arrow">&rarr;</div>
+      <span class="badge p1">Phase 1</span>
+    </div>
+    <div class="report-card">
+      <div class="report-primary">No Parts Available Per Supplier</div>
+      <div class="report-secondary">Secondary: Supplier Delivery Time Analysis</div>
+      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
+    </div>
+  </div>
+
+  <!-- PHASE SUMMARY -->
+  <div class="phase-summary">
+    <div class="phase-row">
+      <div class="phase-count" style="color:#2B8A3E">6</div>
+      <div class="phase-detail">
+        <div class="phase-detail-title">Phase 1 tiles — ready to connect now</div>
+        <div class="phase-detail-sub">Quotes Sent &middot; Orders Placed &middot; Total Spend &middot; Parts Profit &middot; Part Type Mix &middot; NLA<br>Work required: audit reports for URL parameter support &rarr; add View Detail deep-links &rarr; pre-fill MTD date filter &rarr; wire MSO site context</div>
+      </div>
+      <span class="phase-action" style="background:#E8F5E9;color:#1B5E20">Navigation only</span>
+    </div>
+    <div class="phase-row">
+      <div class="phase-count" style="color:#E07A00">2</div>
+      <div class="phase-detail">
+        <div class="phase-detail-title">Phase 2 tiles — blocked on back-end data</div>
+        <div class="phase-detail-sub">Missed Savings: at-order price capture &nbsp;&middot;&nbsp; Insurer Compliance: target config per repairer<br>Reports already exist in the portal — connection is straightforward once data is available</div>
+      </div>
+      <span class="phase-action" style="background:#FFF8E1;color:#7A4F00">Data work first</span>
+    </div>
+    <div class="phase-row" style="background:#F9F9F9">
+      <div class="phase-count" style="color:#185FA5">20</div>
+      <div class="phase-detail">
+        <div class="phase-detail-title">Total portal reports available</div>
+        <div class="phase-detail-sub">All reports already exist. No new reports need to be built. The work is connecting the right signal to the right report at the right time.</div>
+      </div>
+      <span class="phase-action" style="background:#E3F2FD;color:#0D47A1">No new reports needed</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    PartsCheck &mdash; Dashboard Redesign &mdash; April 2026 &mdash; Internal use only
+  </div>
+
+</div>
+</body>
+</html>
