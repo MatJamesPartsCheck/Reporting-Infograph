@@ -3,83 +3,97 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PartsCheck — Dashboard to Report Connectivity</title>
+<title>PartsCheck — Dashboard &amp; Reporting Rollout</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',Arial,sans-serif;background:#F4F5F7;color:#1A1A1A;padding:32px 24px;min-height:100vh}
-  .page{max-width:860px;margin:0 auto}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F4F5F7;color:#1A1A1A;padding:28px 20px;min-height:100vh}
+.page{max-width:960px;margin:0 auto}
 
-  /* Header */
-  .header{background:#2B8A3E;border-radius:8px;padding:24px 28px;margin-bottom:20px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
-  .header-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .logo-box{background:#fff;color:#2B8A3E;font-size:16px;font-weight:900;width:32px;height:30px;border-radius:3px;display:flex;align-items:center;justify-content:center}
-  .logo-name{color:#fff;font-size:18px;font-weight:700;letter-spacing:.5px}
-  .header-title{color:#fff;font-size:22px;font-weight:700;margin-bottom:4px}
-  .header-sub{color:rgba(255,255,255,.75);font-size:13px;line-height:1.5}
-  .header-meta{text-align:right;flex-shrink:0}
-  .meta-tag{background:rgba(255,255,255,.15);color:#fff;font-size:11px;padding:4px 10px;border-radius:4px;display:inline-block;margin-left:6px;margin-bottom:4px}
+/* Header */
+.header{background:#2B8A3E;border-radius:8px;padding:20px 26px;margin-bottom:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.logo-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.logo-box{background:#fff;color:#2B8A3E;font-size:14px;font-weight:900;width:28px;height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center}
+.logo-name{color:#fff;font-size:16px;font-weight:700;letter-spacing:.5px}
+.header-title{color:#fff;font-size:20px;font-weight:700;margin-bottom:3px}
+.header-sub{color:rgba(255,255,255,.75);font-size:11px;line-height:1.55}
+.meta-tag{background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;display:inline-block;margin-left:5px;margin-top:3px}
 
-  /* Legend */
-  .legend{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-  .legend-title{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px}
-  .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
-  .l-swatch{width:14px;height:14px;border-radius:2px;flex-shrink:0}
-  .badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
-  .p1{background:#E8F5E9;color:#1B5E20}
-  .p2{background:#FFF8E1;color:#7A4F00}
-  .sep{color:#DDD;font-size:16px}
+/* Phase strip */
+.phase-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.pp{border-radius:6px;padding:10px 12px}
+.pp-num{font-size:20px;font-weight:700;margin-bottom:1px}
+.pp-name{font-size:11px;font-weight:700;margin-bottom:4px}
+.pp-desc{font-size:10px;line-height:1.4;opacity:.85}
+.pp-status{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:5px}
 
-  /* Column headers */
-  .col-heads{display:grid;grid-template-columns:190px 96px 1fr;gap:10px;padding:6px 4px;margin-bottom:4px}
-  .col-head{font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px}
+/* Section block */
+.section-block{border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #E0E0E0}
+.section-head{padding:10px 14px;display:flex;align-items:center;gap:10px}
+.sh-num{font-size:20px;font-weight:700;min-width:26px}
+.sh-title{font-size:13px;font-weight:700;flex:1}
+.sh-sub{font-size:10px;opacity:.8}
+.section-body{background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 
-  /* Section group */
-  .group-label{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#555;background:#F0F0F0;padding:5px 10px;border-radius:4px;margin:12px 0 6px}
+/* Two column layout inside section */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 
-  /* Row */
-  .row{display:grid;grid-template-columns:190px 96px 1fr;gap:10px;align-items:start;margin-bottom:6px}
-  .row.dimmed .tile-card,.row.dimmed .report-card{opacity:.6}
+/* Sub-panel */
+.sub-panel{border-radius:6px;padding:10px 12px;border:1px solid #E8E8E8}
+.sub-panel-title{font-size:11px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.sub-panel-body{font-size:11px;color:#555;line-height:1.5}
 
-  /* Tile card */
-  .tile-card{border:1px solid #E0E0E0;border-left-width:4px;border-radius:0 6px 6px 0;padding:9px 11px;background:#fff}
-  .tile-name{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:2px}
-  .tile-type{font-size:10px;color:#999}
+/* Tile rows */
+.tile-row{display:grid;grid-template-columns:160px 80px 1fr;gap:6px;align-items:start;margin-bottom:4px}
+.tile-row:last-child{margin-bottom:0}
+.tile-card{border:1px solid #E8E8E8;border-left-width:3px;border-radius:0 5px 5px 0;padding:6px 9px;background:#fff}
+.tile-name{font-size:11px;font-weight:700;color:#1A1A1A;margin-bottom:1px}
+.tile-sub{font-size:9px;color:#999}
+.conn{display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:8px}
+.ap{font-size:9px;font-weight:600;background:#F0F0F0;color:#444;padding:2px 7px;border-radius:7px;border:1px solid #DDD;white-space:nowrap}
+.arr{font-size:14px;color:#CCC;line-height:1}
+.badge{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 6px;border-radius:7px;white-space:nowrap}
+.b1{background:#E3F2FD;color:#0D47A1}.b2{background:#E8F5E9;color:#1B5E20}
+.b3{background:#FFF8E1;color:#7A4F00}.b4{background:#F3E8FF;color:#4C1D95}
+.bn{background:#F0F0F0;color:#999}
+.report-card{border:1px solid #E8E8E8;border-left:3px solid #185FA5;border-radius:0 5px 5px 0;padding:6px 9px;background:#fff}
+.report-card.p4{border-left-color:#6D28D9}
+.rp{font-size:11px;font-weight:700;color:#185FA5;margin-bottom:1px}
+.rp-p4{color:#6D28D9}
+.rs{font-size:10px;color:#888;margin-bottom:3px}
+.rn{font-size:9px;font-style:italic;line-height:1.4}
+.no-report{border:1px solid #F0F0F0;border-left:3px solid #CCC;border-radius:0 5px 5px 0;padding:6px 9px;background:#FAFAFA}
+.dimmed .tile-card,.dimmed .report-card{opacity:.5}
 
-  /* Connector */
-  .connector{display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:12px}
-  .action-pill{font-size:10px;font-weight:600;background:#F0F0F0;color:#444;padding:3px 9px;border-radius:10px;border:1px solid #DDD;white-space:nowrap}
-  .conn-arrow{font-size:18px;color:#CCC;line-height:1;margin:-2px 0}
+/* Report framework zone display */
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}
+.zone{border-radius:5px;padding:8px 10px;text-align:center}
+.zone-num{font-size:16px;font-weight:700;margin-bottom:3px}
+.zone-name{font-size:10px;font-weight:700;margin-bottom:4px}
+.zone-desc{font-size:9px;line-height:1.4;opacity:.85}
 
-  /* Report card */
-  .report-card{border:1px solid #E0E0E0;border-left:3px solid #185FA5;border-radius:0 6px 6px 0;padding:9px 11px;background:#fff}
-  .report-primary{font-size:12px;font-weight:700;color:#185FA5;margin-bottom:2px}
-  .report-secondary{font-size:11px;color:#888;margin-bottom:5px}
-  .p1-note{font-size:10px;color:#2E7D32;font-style:italic;line-height:1.4}
-  .p2-note{font-size:10px;color:#7A4F00;font-style:italic;line-height:1.4}
+/* Report rebuild table */
+.rebuild-table{width:100%;border-collapse:collapse;font-size:11px}
+.rebuild-table th{text-align:left;padding:5px 8px;background:#F5F5F5;color:#555;font-weight:700;font-size:10px;border-bottom:1px solid #E0E0E0;border-top:1px solid #E0E0E0}
+.rebuild-table td{padding:6px 8px;border-bottom:1px solid #F0F0F0;color:#555;vertical-align:top}
+.rebuild-table tr:last-child td{border-bottom:none}
+.rebuild-table td:first-child{font-weight:700;color:#1A1A1A}
 
-  /* Summary box */
-  .summary{background:#fff;border:1px solid #E0E0E0;border-radius:8px;padding:16px 18px;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .summary-col-title{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
-  .summary-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:11px;color:#555;line-height:1.5}
-  .summary-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+/* Feature pills */
+.feat-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.feat{font-size:9px;font-weight:600;padding:2px 7px;border-radius:8px;background:#E8F5E9;color:#1B5E20;border:1px solid #C8E6C9}
 
-  /* Phase summary row */
-  .phase-summary{margin-top:16px;background:#fff;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden}
-  .phase-row{display:flex;align-items:center;padding:10px 16px;gap:12px;border-bottom:1px solid #F0F0F0}
-  .phase-row:last-child{border-bottom:none}
-  .phase-count{font-size:22px;font-weight:700;min-width:28px}
-  .phase-detail{flex:1}
-  .phase-detail-title{font-size:12px;font-weight:700;color:#1A1A1A;margin-bottom:2px}
-  .phase-detail-sub{font-size:11px;color:#777;line-height:1.5}
-  .phase-action{font-size:11px;font-weight:600;padding:4px 12px;border-radius:10px;white-space:nowrap}
+/* Summary bar */
+.summary{background:#fff;border:1px solid #E0E0E0;border-radius:8px;overflow:hidden;margin-top:14px}
+.sum-row{display:grid;grid-template-columns:110px 1fr 1fr auto;align-items:center;padding:9px 14px;gap:10px;border-bottom:1px solid #F0F0F0}
+.sum-row:last-child{border-bottom:none;background:#F9F9F9}
+.sum-phase{font-size:12px;font-weight:700}
+.sum-status{font-size:10px;color:#999;margin-top:2px}
+.sum-col-head{font-size:9px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.sum-col-body{font-size:10px;color:#555;line-height:1.5}
+.sum-action{font-size:9px;font-weight:700;padding:4px 10px;border-radius:8px;white-space:nowrap;text-align:center}
 
-  /* Footer */
-  .footer{text-align:center;margin-top:20px;font-size:11px;color:#AAA}
-
-  @media print{
-    body{background:#fff;padding:16px}
-    .page{max-width:100%}
-  }
+.footer{text-align:center;margin-top:14px;font-size:10px;color:#BBB}
 </style>
 </head>
 <body>
@@ -88,228 +102,356 @@
   <!-- HEADER -->
   <div class="header">
     <div>
-      <div class="header-logo">
+      <div class="logo-row">
         <div class="logo-box">&#10003;</div>
         <span class="logo-name">PARTSCHECK</span>
       </div>
-      <div class="header-title">Dashboard to Report Connectivity</div>
-      <div class="header-sub">How each dashboard tile connects to portal reporting — what triggers the link, which report opens, and what is required to make each connection work.</div>
+      <div class="header-title">Dashboard &amp; Reporting — Phased Rollout</div>
+      <div class="header-sub">What each phase delivers across the dashboard and reporting, how tiles connect to portal reports, and what is required at each stage.</div>
     </div>
-    <div class="header-meta">
+    <div style="text-align:right;flex-shrink:0">
       <span class="meta-tag">April 2026</span>
-      <span class="meta-tag">In development</span>
+      <span class="meta-tag">Internal</span>
     </div>
   </div>
 
-  <!-- LEGEND -->
-  <div class="legend">
-    <span class="legend-title">Key</span>
-    <span class="sep">|</span>
-    <div class="legend-item"><span class="badge p1">Phase 2</span>&nbsp;Navigation &amp; deep-link only — no new data needed</div>
-    <div class="legend-item"><span class="badge p2">Phase 3</span>&nbsp;Back-end data required before tile or link can be built</div>
-    <span class="sep">|</span>
-    <div class="legend-item"><div class="l-swatch" style="border-left:4px solid #2B8A3E;border:1px solid #DDD;border-left-width:4px"></div>Dashboard tile</div>
-    <div class="legend-item"><div class="l-swatch" style="border-left:4px solid #185FA5;border:1px solid #DDD;border-left-width:4px"></div>Portal report</div>
-    <div class="legend-item" style="margin-left:auto;color:#AAA;font-style:italic">Faded rows = Phase 3 — report exists, tile blocked on data</div>
-  </div>
-
-  <!-- COLUMN HEADERS -->
-  <div class="col-heads">
-    <div class="col-head">Dashboard tile</div>
-    <div class="col-head" style="text-align:center">Action</div>
-    <div class="col-head">Portal report &amp; what's needed</div>
-  </div>
-
-  <!-- ── KPI TILES ── -->
-  <div class="group-label">Month to date — KPI tiles</div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#2B8A3E">
-      <div class="tile-name">Quotes Sent</div>
-      <div class="tile-type">KPI tile &middot; MTD</div>
+  <!-- PHASE STRIP -->
+  <div class="phase-strip">
+    <div class="pp" style="background:#E3F2FD">
+      <div class="pp-num" style="color:#0D47A1">1</div>
+      <div class="pp-name" style="color:#0D47A1">Baseline</div>
+      <div class="pp-desc" style="color:#1565C0">Static monthly tiles. No report links. Portal reports untouched.</div>
+      <span class="pp-status" style="background:#0D47A1;color:#fff">SHIPPED</span>
     </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
+    <div class="pp" style="background:#E8F5E9">
+      <div class="pp-num" style="color:#1B5E20">2</div>
+      <div class="pp-name" style="color:#1B5E20">Live Performance</div>
+      <div class="pp-desc" style="color:#2E7D32">Tiles go live MTD. Parts Profit added. New report framework built.</div>
+      <span class="pp-status" style="background:#2B8A3E;color:#fff">PLANNED</span>
     </div>
-    <div class="report-card">
-      <div class="report-primary">Score Card Direct Order Report</div>
-      <div class="report-secondary">Secondary: Full Job Cost Breakdown</div>
-      <div class="p1-note">Add deep-link with current MTD start &amp; end dates pre-applied</div>
+    <div class="pp" style="background:#FFF8E1">
+      <div class="pp-num" style="color:#7A4F00">3</div>
+      <div class="pp-name" style="color:#7A4F00">Connected Reporting</div>
+      <div class="pp-desc" style="color:#8D5600">4 KPI reports rebuilt. View Detail links wired. SSO portal handoff.</div>
+      <span class="pp-status" style="background:#E07A00;color:#fff">PLANNED</span>
+    </div>
+    <div class="pp" style="background:#F3E8FF">
+      <div class="pp-num" style="color:#4C1D95">4</div>
+      <div class="pp-name" style="color:#4C1D95">Insight Layer</div>
+      <div class="pp-desc" style="color:#5B21B6">4 new widgets. 4 widget reports rebuilt. 12 reports migrated incrementally.</div>
+      <span class="pp-status" style="background:#6D28D9;color:#fff">PLANNED</span>
     </div>
   </div>
 
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#2B8A3E">
-      <div class="tile-name">Orders Placed</div>
-      <div class="tile-type">KPI tile &middot; MTD</div>
+  <!-- PHASE 1 -->
+  <div class="section-block" style="border-color:#BBDEFB">
+    <div class="section-head" style="background:#E3F2FD">
+      <span class="sh-num" style="color:#0D47A1">1</span>
+      <span class="sh-title" style="color:#0D47A1">Baseline — shipped</span>
+      <span class="sh-sub" style="color:#1565C0">Static last-month data &middot; no report links &middot; portal reports unchanged</span>
     </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">Detailed Purchase Analysis</div>
-      <div class="report-secondary">Secondary: All Items Purchased for Period</div>
-      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#2B8A3E">
-      <div class="tile-name">Total Spend</div>
-      <div class="tile-type">KPI tile &middot; MTD</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">Item Type Spend Report</div>
-      <div class="report-secondary">Secondary: Detailed Purchase Analysis</div>
-      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#2B8A3E">
-      <div class="tile-name">Parts Profit</div>
-      <div class="tile-type">KPI tile &middot; MTD</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">Parts Margin Report</div>
-      <div class="report-secondary">Secondary: Det. Purchase Analysis &mdash; Job Cost</div>
-      <div class="p1-note">Add deep-link with current MTD dates pre-applied. Sell price already captured.</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#2B8A3E">
-      <div class="tile-name">Hours Saved</div>
-      <div class="tile-type">KPI tile &middot; Estimate only</div>
-    </div>
-    <div class="connector">
-      <div style="font-size:10px;color:#999;text-align:center;line-height:1.4;padding:0 4px">No link</div>
-      <div class="conn-arrow" style="color:#E0E0E0">&mdash;</div>
-      <span class="badge" style="background:#F0F0F0;color:#999">No report</span>
-    </div>
-    <div class="report-card" style="border-left-color:#CCC">
-      <div class="report-primary" style="color:#999">No report available</div>
-      <div class="report-secondary">Estimated from avg workflow time savings across quoting, ordering and receipting activity. Not a captured data point &mdash; no drill-down exists.</div>
-      <div style="font-size:10px;color:#999;font-style:italic;margin-top:4px">No View Detail link on dashboard tile</div>
-    </div>
-  </div>
-
-  <!-- ── INSIGHT WIDGETS ── -->
-  <div class="group-label">Insight widgets</div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#3b82f6">
-      <div class="tile-name">Part Type Mix</div>
-      <div class="tile-type">Insight widget</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">Item Type Percentage Report</div>
-      <div class="report-secondary">Secondary: Item Type Spend Report</div>
-      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
-    </div>
-  </div>
-
-  <div class="row dimmed">
-    <div class="tile-card" style="border-left-color:#C0392B">
-      <div class="tile-name">Missed Savings</div>
-      <div class="tile-type">Insight widget &middot; Phase 3 only</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p2">Phase 3</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">Item Lost Per Supplier</div>
-      <div class="report-secondary">Secondary: Part Pricing Purchased vs Cheapest</div>
-      <div class="p2-note">Requires at-order-time competitive price snapshot to be captured first</div>
-    </div>
-  </div>
-
-  <div class="row dimmed">
-    <div class="tile-card" style="border-left-color:#E07A00">
-      <div class="tile-name">Insurer Compliance</div>
-      <div class="tile-type">Insight widget &middot; Phase 3 only</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p2">Phase 3</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">OEM Supplier Discount Breakdown &mdash; New</div>
-      <div class="report-secondary">Secondary: Per Site Purchased vs Cheapest OEM AFT</div>
-      <div class="p2-note">Requires insurer KPI target configuration per repairer first</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="tile-card" style="border-left-color:#E07A00">
-      <div class="tile-name">NLA</div>
-      <div class="tile-type">Insight widget</div>
-    </div>
-    <div class="connector">
-      <div class="action-pill">View Detail &rarr;</div>
-      <div class="conn-arrow">&rarr;</div>
-      <span class="badge p1">Phase 2</span>
-    </div>
-    <div class="report-card">
-      <div class="report-primary">No Parts Available Per Supplier</div>
-      <div class="report-secondary">Secondary: Supplier Delivery Time Analysis</div>
-      <div class="p1-note">Add deep-link with current MTD dates pre-applied</div>
-    </div>
-  </div>
-
-  <!-- PHASE SUMMARY -->
-  <div class="phase-summary">
-    <div class="phase-row">
-      <div class="phase-count" style="color:#2B8A3E">6</div>
-      <div class="phase-detail">
-        <div class="phase-detail-title">Phase 2 tiles — ready to connect now</div>
-        <div class="phase-detail-sub">Quotes Sent &middot; Orders Placed &middot; Total Spend &middot; Parts Profit &middot; Part Type Mix &middot; NLA<br>Work required: audit reports for URL parameter support &rarr; add View Detail deep-links &rarr; pre-fill MTD date filter &rarr; wire MSO site context</div>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="sub-panel" style="background:#F5F9FF">
+          <div class="sub-panel-title" style="color:#0D47A1">&#9679; Dashboard</div>
+          <div class="sub-panel-body">Static monthly tiles: Quotes Sent, Orders Placed, Total Spend, Hours Saved. Data reflects the prior completed month only. No real-time updates. No trend indicators. No View Detail links.</div>
+        </div>
+        <div class="sub-panel" style="background:#F5F9FF">
+          <div class="sub-panel-title" style="color:#0D47A1">&#9679; Reporting</div>
+          <div class="sub-panel-body">No changes to portal reports. All 20 existing reports remain as-is. Accessible directly from the portal reporting section only — not linked from the dashboard.</div>
+        </div>
       </div>
-      <span class="phase-action" style="background:#E8F5E9;color:#1B5E20">Navigation only</span>
-    </div>
-    <div class="phase-row">
-      <div class="phase-count" style="color:#E07A00">2</div>
-      <div class="phase-detail">
-        <div class="phase-detail-title">Phase 3 tiles — blocked on back-end data</div>
-        <div class="phase-detail-sub">Missed Savings: at-order price capture &nbsp;&middot;&nbsp; Insurer Compliance: target config per repairer<br>Reports already exist in the portal — connection is straightforward once data is available</div>
-      </div>
-      <span class="phase-action" style="background:#FFF8E1;color:#7A4F00">Data work first</span>
-    </div>
-    <div class="phase-row" style="background:#F9F9F9">
-      <div class="phase-count" style="color:#185FA5">20</div>
-      <div class="phase-detail">
-        <div class="phase-detail-title">Total portal reports available</div>
-        <div class="phase-detail-sub">All reports already exist. No new reports need to be built. The work is connecting the right signal to the right report at the right time.</div>
-      </div>
-      <span class="phase-action" style="background:#E3F2FD;color:#0D47A1">No new reports needed</span>
     </div>
   </div>
 
-  <div class="footer">
-    PartsCheck &mdash; Dashboard Redesign &mdash; April 2026 &mdash; Internal use only
+  <!-- PHASE 2 -->
+  <div class="section-block" style="border-color:#C8E6C9">
+    <div class="section-head" style="background:#E8F5E9">
+      <span class="sh-num" style="color:#1B5E20">2</span>
+      <span class="sh-title" style="color:#1B5E20">Live Performance — tiles go live &amp; report framework established</span>
+      <span class="sh-sub" style="color:#2E7D32">Front-end + query changes &middot; no new data pipelines</span>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <!-- Dashboard col -->
+        <div>
+          <div class="sub-panel-title" style="color:#1B5E20;font-size:11px;font-weight:700;margin-bottom:8px">Dashboard changes</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div class="tile-row" style="grid-template-columns:1fr">
+              <div class="tile-card" style="border-left-color:#2B8A3E">
+                <div class="tile-name">Quotes Sent &nbsp;<span class="badge b2">MTD</span></div>
+                <div class="tile-sub">Live &middot; trend vs same period last mo. &middot; 4-month hover tooltip</div>
+              </div>
+            </div>
+            <div class="tile-row" style="grid-template-columns:1fr">
+              <div class="tile-card" style="border-left-color:#2B8A3E">
+                <div class="tile-name">Orders Placed &nbsp;<span class="badge b2">MTD</span></div>
+                <div class="tile-sub">Live &middot; trend vs same period last mo. &middot; 4-month hover tooltip</div>
+              </div>
+            </div>
+            <div class="tile-row" style="grid-template-columns:1fr">
+              <div class="tile-card" style="border-left-color:#2B8A3E">
+                <div class="tile-name">Total Spend &nbsp;<span class="badge b2">MTD</span></div>
+                <div class="tile-sub">Live &middot; trend vs same period last mo. &middot; 4-month hover tooltip</div>
+              </div>
+            </div>
+            <div class="tile-row" style="grid-template-columns:1fr">
+              <div class="tile-card" style="border-left-color:#2B8A3E">
+                <div class="tile-name">Parts Profit &nbsp;<span class="badge b2">New tile</span></div>
+                <div class="tile-sub">Sell price already captured &middot; no new data needed</div>
+              </div>
+            </div>
+            <div class="tile-row" style="grid-template-columns:1fr">
+              <div class="tile-card" style="border-left-color:#AAAAAA;opacity:.65">
+                <div class="tile-name">Hours Saved</div>
+                <div class="tile-sub">Estimate only &middot; retained as-is &middot; no link ever</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reporting framework col -->
+        <div>
+          <div class="sub-panel-title" style="color:#1B5E20;font-size:11px;font-weight:700;margin-bottom:8px">New report framework (all Phase 3 &amp; 4 reports built on this)</div>
+          <div class="zones">
+            <div class="zone" style="background:#E8F5E9">
+              <div class="zone-num" style="color:#1B5E20">1</div>
+              <div class="zone-name" style="color:#1B5E20">Headline</div>
+              <div class="zone-desc" style="color:#2E7D32">Primary metric + trend matching the tile</div>
+            </div>
+            <div class="zone" style="background:#FFF8E1">
+              <div class="zone-num" style="color:#7A4F00">2</div>
+              <div class="zone-name" style="color:#7A4F00">Insight bar</div>
+              <div class="zone-desc" style="color:#8D5600">Plain-English signal from the data</div>
+            </div>
+            <div class="zone" style="background:#FFF3E0">
+              <div class="zone-num" style="color:#E65100">3</div>
+              <div class="zone-name" style="color:#E65100">Breakdown</div>
+              <div class="zone-desc" style="color:#BF360C">Visual bar chart by supplier / type / job</div>
+            </div>
+            <div class="zone" style="background:#F5F5F5">
+              <div class="zone-num" style="color:#555">4</div>
+              <div class="zone-name" style="color:#555">Detail table</div>
+              <div class="zone-desc" style="color:#777">Filterable rows &middot; CSV export here only</div>
+            </div>
+          </div>
+          <div class="feat-row" style="margin-top:10px">
+            <span class="feat">MTD default date</span>
+            <span class="feat">Trend vs last mo.</span>
+            <span class="feat">Pre-filter via URL</span>
+            <span class="feat">MSO site context</span>
+            <span class="feat">Green/amber/red</span>
+            <span class="feat">Tablet responsive</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- PHASE 3 -->
+  <div class="section-block" style="border-color:#FFE0B2">
+    <div class="section-head" style="background:#FFF8E1">
+      <span class="sh-num" style="color:#7A4F00">3</span>
+      <span class="sh-title" style="color:#7A4F00">Connected Reporting — 4 reports rebuilt, View Detail links wired</span>
+      <span class="sh-sub" style="color:#8D5600">Do not wire links until reports are rebuilt &middot; no new data needed</span>
+    </div>
+    <div class="section-body">
+      <div style="font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Tile &rarr; rebuilt report &rarr; what it shows</div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#2B8A3E">
+          <div class="tile-name">Quotes Sent</div>
+          <div class="tile-sub">KPI tile</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b3">Phase 3</span>
+        </div>
+        <div class="report-card">
+          <div class="rp">Score Card Direct Order Report &nbsp;<span style="background:#FFF8E1;color:#7A4F00;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Full Job Cost Breakdown</div>
+          <div class="rn" style="color:#7A4F00">Quotes sent MTD + conversion rate. Breakdown by supplier: response rate, conversion, avg response time.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#2B8A3E">
+          <div class="tile-name">Orders Placed</div>
+          <div class="tile-sub">KPI tile</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b3">Phase 3</span>
+        </div>
+        <div class="report-card">
+          <div class="rp">Detailed Purchase Analysis &nbsp;<span style="background:#FFF8E1;color:#7A4F00;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: All Items Purchased for Period</div>
+          <div class="rn" style="color:#7A4F00">Orders MTD + avg per job. Breakdown by supplier, part type, vehicle make. Individual order lines.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#2B8A3E">
+          <div class="tile-name">Total Spend</div>
+          <div class="tile-sub">KPI tile</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b3">Phase 3</span>
+        </div>
+        <div class="report-card">
+          <div class="rp">Item Type Spend Report &nbsp;<span style="background:#FFF8E1;color:#7A4F00;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Detailed Purchase Analysis</div>
+          <div class="rn" style="color:#7A4F00">Spend MTD + avg per job. Bar chart by part type. Supplier ranked list. Individual lines by value.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#2B8A3E">
+          <div class="tile-name">Parts Profit</div>
+          <div class="tile-sub">KPI tile</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b3">Phase 3</span>
+        </div>
+        <div class="report-card">
+          <div class="rp">Parts Margin Report &nbsp;<span style="background:#FFF8E1;color:#7A4F00;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Det. Purchase Analysis — Job Cost</div>
+          <div class="rn" style="color:#7A4F00">Profit ($) + margin %. Breakdown by supplier and part type. Lines with buy/sell price and margin.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#AAAAAA;opacity:.6">
+          <div class="tile-name">Hours Saved</div>
+          <div class="tile-sub">Estimate only</div>
+        </div>
+        <div class="conn">
+          <div style="font-size:9px;color:#CCC;text-align:center">No link</div>
+          <div class="arr" style="color:#EEE">&mdash;</div>
+          <span class="badge bn">No report</span>
+        </div>
+        <div class="no-report">
+          <div style="font-size:10px;color:#BBB;font-style:italic">Estimated metric &mdash; no corresponding portal report &mdash; no View Detail link at any phase</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="section-block" style="border-color:#D8B4FE">
+    <div class="section-head" style="background:#F3E8FF">
+      <span class="sh-num" style="color:#4C1D95">4</span>
+      <span class="sh-title" style="color:#4C1D95">Insight Layer — 4 new widgets + 4 widget reports rebuilt</span>
+      <span class="sh-sub" style="color:#5B21B6">Faded rows = needs investigation before build &middot; 12 remaining reports migrated incrementally</span>
+    </div>
+    <div class="section-body">
+      <div style="font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Widget &rarr; rebuilt report &rarr; what it shows</div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#3b82f6">
+          <div class="tile-name">Part Type Mix</div>
+          <div class="tile-sub">New insight widget</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b4">Phase 4</span>
+        </div>
+        <div class="report-card p4">
+          <div class="rp rp-p4">Item Type Percentage Report &nbsp;<span style="background:#F3E8FF;color:#4C1D95;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Item Type Spend Report</div>
+          <div class="rn" style="color:#4C1D95">OEM / AM / Used % split + trend. Breakdown by supplier driving the mix. Individual part type lines.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#C0392B">
+          <div class="tile-name">Missed Savings</div>
+          <div class="tile-sub">New insight widget</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b4">Phase 4</span>
+        </div>
+        <div class="report-card p4">
+          <div class="rp rp-p4">Item Lost Per Supplier &nbsp;<span style="background:#F3E8FF;color:#4C1D95;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Part Pricing Purchased vs Cheapest</div>
+          <div class="rn" style="color:#4C1D95">Total missed savings + avg per part. Supplier ranked by missed savings. Lines with selected vs cheapest quote price.</div>
+        </div>
+      </div>
+      <div class="tile-row dimmed">
+        <div class="tile-card" style="border-left-color:#E07A00">
+          <div class="tile-name">Insurer Compliance</div>
+          <div class="tile-sub">New widget &middot; needs investigation</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b4">Phase 4</span>
+        </div>
+        <div class="report-card p4">
+          <div class="rp rp-p4">OEM Supplier Discount Breakdown — New &nbsp;<span style="background:#F3E8FF;color:#4C1D95;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Per Site Purchased vs Cheapest OEM AFT</div>
+          <div class="rn" style="color:#C0392B">Blocked: insurer KPI targets need to be configured per repairer before this widget and report can be built.</div>
+        </div>
+      </div>
+      <div class="tile-row">
+        <div class="tile-card" style="border-left-color:#E07A00">
+          <div class="tile-name">NLA</div>
+          <div class="tile-sub">New insight widget</div>
+        </div>
+        <div class="conn">
+          <div class="ap">View Detail</div>
+          <div class="arr">&rarr;</div>
+          <span class="badge b4">Phase 4</span>
+        </div>
+        <div class="report-card p4">
+          <div class="rp rp-p4">No Parts Available Per Supplier &nbsp;<span style="background:#F3E8FF;color:#4C1D95;font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px">REBUILT</span></div>
+          <div class="rs">Secondary: Supplier Delivery Time Analysis</div>
+          <div class="rn" style="color:#4C1D95">NLA cost + avg delay. By supplier and part category. Individual NLA events with delay days and cost.</div>
+        </div>
+      </div>
+
+      <!-- Remaining reports note -->
+      <div style="background:#F5F0FF;border:1px solid #D8B4FE;border-radius:6px;padding:10px 12px;margin-top:4px">
+        <div style="font-size:11px;font-weight:700;color:#4C1D95;margin-bottom:5px">Remaining 12 portal reports — migrated incrementally</div>
+        <div style="font-size:10px;color:#555;line-height:1.6">Not linked to dashboard tiles &middot; migrated to new template one or two per sprint &middot; visual layout first, then MTD default and trend comparison &middot; no data changes required &middot; resolve duplicates first: Full Job Cost Breakdown (x2) and OEM Supplier Discount Breakdown (x2)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY BAR -->
+  <div class="summary">
+    <div style="background:#F5F5F5;padding:7px 14px;border-bottom:1px solid #E0E0E0">
+      <span style="font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.4px">Delivery summary</span>
+    </div>
+    <div class="sum-row">
+      <div><div class="sum-phase" style="color:#0D47A1">Phase 1</div><div class="sum-status">Shipped</div></div>
+      <div><div class="sum-col-head">Dashboard</div><div class="sum-col-body">Static tiles. Quotes Sent, Orders Placed, Total Spend, Hours Saved.</div></div>
+      <div><div class="sum-col-head">Reporting</div><div class="sum-col-body">No changes. 20 existing portal reports untouched.</div></div>
+      <span class="sum-action" style="background:#E3F2FD;color:#0D47A1">Done</span>
+    </div>
+    <div class="sum-row">
+      <div><div class="sum-phase" style="color:#1B5E20">Phase 2</div><div class="sum-status">Planned</div></div>
+      <div><div class="sum-col-head">Dashboard</div><div class="sum-col-body">5 tiles live MTD. Trend indicators. Parts Profit added.</div></div>
+      <div><div class="sum-col-head">Reporting</div><div class="sum-col-body">Build report framework: 4-zone layout, MTD default, URL pre-filter, MSO context.</div></div>
+      <span class="sum-action" style="background:#E8F5E9;color:#1B5E20">Front-end + queries</span>
+    </div>
+    <div class="sum-row">
+      <div><div class="sum-phase" style="color:#7A4F00">Phase 3</div><div class="sum-status">Planned</div></div>
+      <div><div class="sum-col-head">Dashboard</div><div class="sum-col-body">View Detail links on 4 KPI tiles. SSO portal deep-link. Hours Saved excluded.</div></div>
+      <div><div class="sum-col-head">Reporting</div><div class="sum-col-body">Rebuild 4 KPI reports. Wire links only after rebuild complete.</div></div>
+      <span class="sum-action" style="background:#FFF8E1;color:#7A4F00">4 reports rebuilt</span>
+    </div>
+    <div class="sum-row">
+      <div><div class="sum-phase" style="color:#4C1D95">Phase 4</div><div class="sum-status">Planned</div></div>
+      <div><div class="sum-col-head">Dashboard</div><div class="sum-col-body">4 new widgets. 3 ready to build. Insurer Compliance needs investigation.</div></div>
+      <div><div class="sum-col-head">Reporting</div><div class="sum-col-body">Rebuild 4 widget reports. Begin migrating remaining 12 incrementally.</div></div>
+      <span class="sum-action" style="background:#F3E8FF;color:#4C1D95">4 reports rebuilt + 12 migrated</span>
+    </div>
+  </div>
+
+  <div class="footer">PartsCheck &mdash; Dashboard &amp; Reporting Rollout &mdash; April 2026 &mdash; Internal use only</div>
 
 </div>
 </body>
